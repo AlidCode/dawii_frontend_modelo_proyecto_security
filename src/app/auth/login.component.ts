@@ -23,25 +23,17 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router
   ) {
-    console.log("LoginComponent >> constructor >>> " + this.tokenService.getToken());
+    console.log("constructor >> constructor >>> " + this.tokenService.getToken());
    }
 
   ngOnInit() {
-    console.log("LoginComponent >> ngOnInit 1 >>> " + this.tokenService.getToken());
-    console.log("LoginComponent >> isLogged 1 >>> " + this.isLogged);
-    console.log("LoginComponent >> isLoginFail 1 >>> " + this.isLoginFail);
-    console.log("LoginComponent >> roles  1 >>> " + this.tokenService.getAuthorities());
+
 
     if (this.tokenService.getToken()) {
         this.isLogged = true;
         this.isLoginFail = false;
         this.roles = this.tokenService.getAuthorities();
-
-        console.log("LoginComponent >> ngOnInit 2 >>> " + this.tokenService.getToken());
-        console.log("LoginComponent >> isLogged 2 >>> " + this.isLogged);
-        console.log("LoginComponent >> isLoginFail 2 >>> " + this.isLoginFail);
-        console.log("LoginComponent >> roles 2 >>> " + this.tokenService.getAuthorities());
-    }
+   }
 
   }
 
@@ -53,8 +45,15 @@ export class LoginComponent implements OnInit {
           this.tokenService.setUserName(data.login);
           this.tokenService.setUserNameComplete(data.nombreCompleto)
           this.tokenService.setAuthorities(data.authorities);
+          this.tokenService.setUserId(data.idUsuario);
           this.roles = data.authorities;
           this.router.navigate(['/']);
+
+          console.log("onLogin() >> token >>> " +  this.tokenService.getToken());
+          console.log("onLogin() >> setUserName >>> " +  this.tokenService.getUserName());
+          console.log("onLogin() >> setUserNameComplete >>> " +  this.tokenService.getUserNameComplete());
+          console.log("onLogin() >> idUsuario >>> " +  this.tokenService.getUserId());
+
       },
       (err:any) => {
           this.isLogged = false;
