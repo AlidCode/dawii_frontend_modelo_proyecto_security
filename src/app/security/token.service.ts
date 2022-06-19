@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
+import { Opcion } from './opcion';
 
 const TOKEN_KEY = 'AuthToken';
 const USERNAME_KEY = 'AuthUserName';
 const AUTHORITIES_KEY = 'AuthAuthorities';
 const NAME_KEY = 'AuthName';
 const USER_ID_KEY = 'AuthUserId';
+const OPCIONES_KEY = 'Opciones';
 
 @Injectable({
   providedIn: 'root'
@@ -12,6 +14,7 @@ const USER_ID_KEY = 'AuthUserId';
 export class TokenService {
 
   roles: Array<string> = [];
+  opciones: Array<Opcion> = [];
 
   constructor() { }
 
@@ -61,12 +64,30 @@ export class TokenService {
     this.roles = [];
     if (sessionStorage.getItem(AUTHORITIES_KEY)) {
       JSON.parse(sessionStorage.getItem(AUTHORITIES_KEY)|| '{}').forEach(
-        (authority:any) => {
-          this.roles.push(authority.authority);
+        (aux:any) => {
+          this.roles.push(aux.authorities);
         }
       );
     }
+    console.log(">>>> TokenService " + this.roles.length);
     return this.roles;
+  }
+
+  public setOpciones(opciones: Opcion[]): void {
+    window.sessionStorage.removeItem(OPCIONES_KEY);
+    window.sessionStorage.setItem(OPCIONES_KEY, JSON.stringify(opciones));
+  }
+
+  public getOpciones(): Opcion[] {
+    this.opciones = [];
+    if (sessionStorage.getItem(OPCIONES_KEY)) {   
+      JSON.parse(sessionStorage.getItem(OPCIONES_KEY)|| '{}').forEach(
+        (aux:any) => {
+          this.opciones.push(aux);
+        }
+      );
+    }
+    return this.opciones;
   }
 
   public logOut(): void {

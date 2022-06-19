@@ -46,6 +46,8 @@ export class LoginComponent implements OnInit {
           this.tokenService.setUserNameComplete(data.nombreCompleto)
           this.tokenService.setAuthorities(data.authorities);
           this.tokenService.setUserId(data.idUsuario);
+          this.tokenService.setOpciones(data.opciones);
+
           this.roles = data.authorities;
           this.router.navigate(['/']);
 
@@ -53,7 +55,8 @@ export class LoginComponent implements OnInit {
           console.log("onLogin() >> setUserName >>> " +  this.tokenService.getUserName());
           console.log("onLogin() >> setUserNameComplete >>> " +  this.tokenService.getUserNameComplete());
           console.log("onLogin() >> idUsuario >>> " +  this.tokenService.getUserId());
-
+          console.log("onLogin() >> roles >>> " +  this.tokenService.getAuthorities());
+          console.log("onLogin() >> opciones >>> " +  this.tokenService.getOpciones());
       },
       (err:any) => {
           this.isLogged = false;
